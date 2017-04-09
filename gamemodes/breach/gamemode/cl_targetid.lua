@@ -54,7 +54,8 @@ function GM:HUDDrawTargetID()
 	end
 	
 	draw.Text( {
-		text = ply:Nick() .. " (" .. FriendlyHealth (ply:Health ()) .. ")",
+		-- text = ply:Nick() .. " (" .. FriendlyHealth (ply:Health ()) .. ")",
+		text = ply:Nick() .. " (" .. 100 * (ply:Health () / ply:GetMaxHealth ()) .. "%)",
 		pos = { x, y },
 		font = "TargetID",
 		color = clr2,

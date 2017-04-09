@@ -212,7 +212,6 @@ net.Receive( "OnEscaped", function( len )
 	esctime = CurTime() - timefromround
 	lastescapegot = CurTime() + 20
 	StartEndSound()
-	KillLighting ()
 	SlowFadeBlink(5)
 end)
 

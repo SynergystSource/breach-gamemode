@@ -409,7 +409,8 @@ function mply:SetSiteDirector(spawn)
 	end
 	self:StripWeapons()
 	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_ADMIN)
+	-- self:SetTeam(TEAM_ADMIN)
+	self:SetTeam(TEAM_GUARD)
 	self:SetHealth(100)
 	self:SetMaxHealth(100)
 	self:SetWalkSpeed(135)
@@ -420,7 +421,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetNoCollideWithTeammates(false)
 	self.Active = true
 	self:Give("item_radio")
-	self:Give("keycard_omni")
+	self:Give("keycard_level5")
 	self:Give("weapon_mtf_deagle")
 	self:GiveAmmo(35, "Pistol", false)
 	self:SetModel("models/player/breen.mdl")
@@ -428,7 +429,8 @@ function mply:SetSiteDirector(spawn)
 	self:SetupHands()
 	self.canblink = true
 	self:AllowFlashlight( true )
-	self.WasTeam = TEAM_ADMIN
+	-- self.WasTeam = TEAM_ADMIN
+	self.WasTeam = TEAM_GUARD
 	self:SetNClass(ROLE_SITEDIRECTOR)
 	self:SetNoTarget( false )
 end

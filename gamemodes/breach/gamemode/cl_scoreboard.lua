@@ -6,8 +6,8 @@ end
 
 surface.CreateFont("sb_names", {font = "Trebuchet18", size = 14, weight = 700})
 
-function RanksEnabled()
-	return GetConVar("br_scoreboardranks"):GetBool()
+function RanksEnabled ()
+	return GetConVar("br_scoreboardranks"):GetBool ()
 end
 
 function firstToUpper(str)
@@ -159,7 +159,8 @@ function ShowScoreBoard()
 	end
 	if RanksEnabled() then
 		table.ForceInsert(sbpanels, {
-			name = "Authority",
+			-- name = "Authority",
+			name = "Group",
 			size = panelwidth * 2.5
 		})
 	end

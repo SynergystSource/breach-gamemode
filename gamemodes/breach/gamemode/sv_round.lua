@@ -37,7 +37,7 @@ function RoundRestart()
 		v:UpdateNKarma()
 	end
 	print("round: playersconfigured")
-	PrintMessage(HUD_PRINTTALK, "Prepare, round will start in ".. GetPrepTime() .." seconds")
+	-- PrintMessage(HUD_PRINTTALK, "Prepare, round will start in ".. GetPrepTime() .." seconds")
 	preparing = true
 	postround = false
 	nextspecialround = nil
@@ -144,7 +144,6 @@ function RoundRestart()
 			GAMEMODE.Breach.EarthquakePhys ()
 		//end
 
-		sound.PlayURL ("https://vignette4.wikia.nocookie.net/containmentbreach/images/2/22/Alarm2.ogg")
 
 		net.Start("RoundStart")
 			net.WriteInt(GetRoundTime(), 12)

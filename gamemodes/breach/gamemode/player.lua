@@ -399,7 +399,7 @@ function GM:PlayerUse( ply, ent )
 						ply:PrintMessage (HUD_PRINTCENTER, v.customdenymsg)
 					else
 						ply:PrintMessage (HUD_PRINTCENTER, "Unauthorized Access")
-						ply:EmitSound    ("ambient/alarms/klaxon1.wav")
+						-- ply:EmitSound    ("ambient/alarms/klaxon1.wav")
 					end
 					return false
 				end
