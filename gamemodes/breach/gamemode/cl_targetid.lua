@@ -1,3 +1,21 @@
+local function FriendlyHealth (iHealth)
+	strText = ""
+	if iHealth >= 95 then
+		strText = "Healthy"
+	elseif iHealth >= 70 then
+		strText = "Wounded"
+	elseif iHealth >= 50 then
+		strText = "Badly Wounded"
+	elseif iHealth >= 25 then
+		strText = "Bleeding Terribly"
+	else
+		strText = "Close To Death"
+	end
+
+	return strText
+end
+
+
 
 function GM:HUDDrawTargetID()
 	local trace = LocalPlayer():GetEyeTrace()
@@ -36,7 +54,7 @@ function GM:HUDDrawTargetID()
 	end
 	
 	draw.Text( {
-		text = ply:Nick() .. " (" .. ply:Health() .. "%)",
+		text = ply:Nick() .. " (" .. FriendlyHealth (ply:Health ()) .. ")",
 		pos = { x, y },
 		font = "TargetID",
 		color = clr2,

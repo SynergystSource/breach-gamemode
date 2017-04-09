@@ -409,7 +409,7 @@ function mply:SetSiteDirector(spawn)
 	end
 	self:StripWeapons()
 	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_GUARD)
+	self:SetTeam(TEAM_ADMIN)
 	self:SetHealth(100)
 	self:SetMaxHealth(100)
 	self:SetWalkSpeed(135)
@@ -420,7 +420,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetNoCollideWithTeammates(false)
 	self.Active = true
 	self:Give("item_radio")
-	self:Give("keycard_level5")
+	self:Give("keycard_omni")
 	self:Give("weapon_mtf_deagle")
 	self:GiveAmmo(35, "Pistol", false)
 	self:SetModel("models/player/breen.mdl")
@@ -428,7 +428,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetupHands()
 	self.canblink = true
 	self:AllowFlashlight( true )
-	self.WasTeam = TEAM_GUARD
+	self.WasTeam = TEAM_ADMIN
 	self:SetNClass(ROLE_SITEDIRECTOR)
 	self:SetNoTarget( false )
 end
@@ -716,7 +716,7 @@ function mply:SpectatePlayerRight()
 	   self:GetObserverMode() != OBS_MODE_CHASE 
 	then return end
 	self:SetNoDraw(true)
-	local allply = GetAlivePlayers()
+	local allply = GAMEMODE.Info.GetAlivePlayers ()
 	if #allply == 1 then return end
 	if not self.SpecPly then
 		self.SpecPly = 0
@@ -738,7 +738,7 @@ function mply:SpectatePlayerLeft()
 	   self:GetObserverMode() != OBS_MODE_CHASE 
 	then return end
 	self:SetNoDraw(true)
-	local allply = GetAlivePlayers()
+	local allply = GAMEMODE.Info.GetAlivePlayers ()
 	if #allply == 1 then return end
 	if not self.SpecPly then
 		self.SpecPly = 0
@@ -759,7 +759,7 @@ function mply:ChangeSpecMode()
 	if !(self:Team() == TEAM_SPEC) then return end
 	self:SetNoDraw(true)
 	local m = self:GetObserverMode()
-	local allply = #GetAlivePlayers()
+	local allply = #GAMEMODE.Info.GetAlivePlayers ()
 	if allply < 2 then
 		self:Spectate(OBS_MODE_ROAMING)
 		return

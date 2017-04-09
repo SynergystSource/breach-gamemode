@@ -162,7 +162,7 @@ english.ROLE_MTFGUARD = "MTF Guard"
 english.ROLE_MTFCOM = "MTF Commander"
 english.ROLE_MTFNTF = "MTF Nine Tailed Fox"
 english.ROLE_CHAOS = "Chaos Insurgency"
-english.ROLE_CLASSD = "Class D Personell"
+english.ROLE_CLASSD = "Class D Personel"
 english.ROLE_RES = "Researcher"
 english.ROLE_SPEC = "Spectator"
 

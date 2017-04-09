@@ -63,7 +63,7 @@ function ShowScoreBoard()
 		color2 = color_white
 	})
 	table.ForceInsert(playerlist,{
-		name = "Class D Personell",
+		name = "Class D Personel",
 		list = role_GetPlayers(ROLE_CLASSD),
 		color = team.GetColor( TEAM_CLASSD ),
 		color2 = color_white
@@ -159,8 +159,8 @@ function ShowScoreBoard()
 	end
 	if RanksEnabled() then
 		table.ForceInsert(sbpanels, {
-			name = "Group",
-			size = panelwidth * 2
+			name = "Authority",
+			size = panelwidth * 2.5
 		})
 	end
 	
@@ -227,10 +227,11 @@ function ShowScoreBoard()
 				rank = firstToUpper(rank)
 				if RanksEnabled() then
 					table.ForceInsert(panels, {
+						-- name = "Authority",
 						name = "Group",
 						text = rank,
 						color = color_white,
-						size = panelwidth * 2
+						size = panelwidth * 2.5
 					})
 				end
 				local scroll_panel = vgui.Create( "DPanel", DScrollPanel )
@@ -266,6 +267,7 @@ function ShowScoreBoard()
 					draw.RoundedBox( 0, 0, 0, w, h, tcolor )
 					draw.Text( {
 						text = string.sub(v:Nick(), 1, 16),
+						-- pos = { width + ((v:IsAdmin () or v:IsSuperAdmin ()) and 20 or 2), h / 2 },
 						pos = { width + 2, h / 2 },
 						font = "sb_names",
 						color = tab.color2,
@@ -336,6 +338,18 @@ function ShowScoreBoard()
 				Avatar:SetSize( width, width )
 				Avatar:SetPos( 0, 0 )
 				Avatar:SetPlayer( v, 32 )
+
+				--if v:IsSuperAdmin () then
+				--	local icon = vgui.Create( "DImage", scroll_panel )
+				--	icon:SetSize( 16, 16 )
+				--	icon:SetPos( width + 2, 5 )
+				--	icon:SetImage( "icon16/user_gray.png" )
+				--elseif v:IsAdmin () then
+				--	local icon = vgui.Create( "DImage", scroll_panel )
+				--	icon:SetSize( 16, 16 )
+				--	icon:SetPos( width + 2, 5 )
+				--	icon:SetImage( "icon16/user_suit.png" )
+				--end
 			end
 		end
 	end

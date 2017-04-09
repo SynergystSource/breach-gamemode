@@ -1,6 +1,6 @@
 
 function AssaultGamemode()
-	local all = GetActivePlayers()
+	local all = GAMEMODE.Info.GetActivePlayers ()
 	for i=1, math.Round(#player.GetAll() / 2) do
 		local pl = table.Random(all)
 		pl:SetNTF()
@@ -14,7 +14,7 @@ function AssaultGamemode()
 end
 
 function ZombieGamemode()
-	local all = GetActivePlayers()
+	local all = GAMEMODE.Info.GetActivePlayers ()
 	local allspawns = {}
 	table.Add(allspawns, SPAWN_GUARD)
 	//table.Add(allspawns, SPAWN_OUTSIDE)
@@ -31,7 +31,7 @@ function ZombieGamemode()
 end
 
 function InfectPeople()
-	local all = GetActivePlayers()
+	local all = GAMEMODE.Info.GetActivePlayers ()
 	for i=1, #all / 4 do
 		local pl = table.Random(all)
 		pl:SetSCP0082()
@@ -40,13 +40,13 @@ function InfectPeople()
 end
 
 function SpyGamemode()
-	local all = GetActivePlayers()
+	local all = GAMEMODE.Info.GetActivePlayers ()
 	local allspawns = {}
 	table.Add(allspawns, SPAWN_GUARD)
 	//table.Add(allspawns, SPAWN_OUTSIDE)
 	table.Add(allspawns, SPAWN_SCIENT)
 	table.Add(allspawns, SPAWN_CLASSD)
-	for i=1, (#GetActivePlayers() / 3) do
+	for i=1, (#GAMEMODE.Info.GetActivePlayers () / 3) do
 		local pl = table.Random(all)
 		local spawn = table.Random(allspawns)
 		pl:SetChaosInsurgency(1)
@@ -64,7 +64,7 @@ end
 
 normalround = {
 	playersetup = function()
-		SetupPlayers( GetRoleTable(#GetActivePlayers()) )
+		SetupPlayers( GetRoleTable(#GAMEMODE.Info.GetActivePlayers ()) )
 	end,
 	name = "Containment breach",
 	minplayers = 3,
@@ -92,15 +92,15 @@ ROUNDS = {
 	},
 	multiplebreaches = {
 		playersetup = function()
-			local pnum = #GetActivePlayers()
+			local pnum = #GAMEMODE.Info.GetActivePlayers ()
 			if pnum < 7 then
-				SetupPlayers(GetRoleTableCustom(#GetActivePlayers(), 1, 0, 0, 0, false))
+				SetupPlayers(GetRoleTableCustom(#GAMEMODE.Info.GetActivePlayers (), 1, 0, 0, 0, false))
 			elseif pnum > 6 and pnum < 13 then
-				SetupPlayers(GetRoleTableCustom(#GetActivePlayers(), 2, 0, 0, 0, false))
+				SetupPlayers(GetRoleTableCustom(#GAMEMODE.Info.GetActivePlayers (), 2, 0, 0, 0, false))
 			elseif pnum > 12 and pnum < 20 then
-				SetupPlayers(GetRoleTableCustom(#GetActivePlayers(), 3, 0, 0, 0, false))
+				SetupPlayers(GetRoleTableCustom(#GAMEMODE.Info.GetActivePlayers (), 3, 0, 0, 0, false))
 			else
-				SetupPlayers(GetRoleTableCustom(#GetActivePlayers(), 4, 0, 0, 0, false))
+				SetupPlayers(GetRoleTableCustom(#GAMEMODE.Info.GetActivePlayers (), 4, 0, 0, 0, false))
 			end
 		end,
 		name = "Multiple breaches",

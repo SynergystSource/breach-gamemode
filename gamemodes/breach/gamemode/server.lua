@@ -80,7 +80,7 @@ end)
 
 
 net.Receive( "RequestGateA", function( len, ply )
-	RequestOpenGateA(ply)
+	GAMEMODE.Actions.RequestOpenGateA(ply)
 end)
 
 net.Receive( "DropWeapon", function( len, ply )
@@ -180,7 +180,7 @@ end )
 function SetupPlayers(pltab)
 	//local pltab = PLAYER_SETUP[#player.GetAll() - 2]
 	//local pltab = GetRoleTable(#player.GetAll())
-	local allply = GetActivePlayers()
+	local allply = GAMEMODE.Info.GetActivePlayers()
 	-- SCP, MTF, Class D, Researchers, Chaos Insurgency --
 	
 	// SCP

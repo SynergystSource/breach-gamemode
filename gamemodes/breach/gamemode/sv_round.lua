@@ -37,10 +37,9 @@ function RoundRestart()
 		v:UpdateNKarma()
 	end
 	print("round: playersconfigured")
-	//PrintMessage(HUD_PRINTTALK, "Prepare, round will start in ".. GetPrepTime() .." seconds")
+	PrintMessage(HUD_PRINTTALK, "Prepare, round will start in ".. GetPrepTime() .." seconds")
 	preparing = true
 	postround = false
-	/*
 	nextspecialround = nil
 	//CloseSCPDoors()
 	// lua_run nextspecialround = spies
@@ -67,7 +66,7 @@ function RoundRestart()
 		if math.random(1,100) <= math.Clamp(GetConVar("br_specialround_percentage"):GetInt(), 1, 100) then
 			local roundstouse = {}
 			for k,v in pairs(ROUNDS) do
-				if v.minplayers <= #GetActivePlayers() then
+				if v.minplayers <= #GAMEMODE.Info.GetActivePlayers () then
 					table.ForceInsert(roundstouse, v)
 				end
 			end
@@ -79,9 +78,8 @@ function RoundRestart()
 	if roundtype == nil then
 		roundtype = normalround
 	end
-	*/
 	//roundtype.playersetup()
-	SetupPlayers( GetRoleTable(#GetActivePlayers()) )
+	SetupPlayers( GetRoleTable(#GAMEMODE.Info.GetActivePlayers ()) )
 	
 	net.Start("UpdateRoundType")
 		//net.WriteString(roundtype.name)
@@ -103,9 +101,8 @@ function RoundRestart()
 		end
 	end
 	
-	SpawnAllItems()
 	timer.Create("NTFEnterTime", GetNTFEnterTime(), 0, function()
-		SpawnNTFS()
+		GAMEMODE.Breach.SpawnNTFS ()
 	end)
 	//if roundtype.mtfandscpdelay == false then
 		//OpenSCPDoors()
@@ -117,8 +114,12 @@ function RoundRestart()
 	timer.Create("PreparingTime", GetPrepTime(), 1, function()
 		print("round: prepinit")
 		for k,v in pairs(player.GetAll()) do
-			v:Freeze(false)
+			v:Freeze (false)
 		end
+
+		GAMEMODE.Breach.SpawnPickups  ()
+		GAMEMODE.Breach.SpawnSCPs 	()
+
 		preparing = false
 		postround = false
 		//if roundtype != nil then
@@ -139,8 +140,12 @@ function RoundRestart()
 		end
 		*/
 		//if roundtype.mtfandscpdelay == true then
-			OpenSCPDoors()
+			GAMEMODE.Breach.OpenSCPDoors()
+			GAMEMODE.Breach.EarthquakePhys ()
 		//end
+
+		sound.PlayURL ("https://vignette4.wikia.nocookie.net/containmentbreach/images/2/22/Alarm2.ogg")
+
 		net.Start("RoundStart")
 			net.WriteInt(GetRoundTime(), 12)
 		net.Broadcast()
@@ -207,7 +212,7 @@ function CheckEscape()
 						WinCheck()
 						v.isescaping = false
 					end)
-					//v:PrintMessage(HUD_PRINTTALK, "You escaped! Try to get escorted by Chaos Insurgency Soldiers next time to get bonus points.")
+					v:PrintMessage(HUD_PRINTTALK, "You escaped! Try to get escorted by Chaos Insurgency Soldiers next time to get bonus points.")
 				elseif v:Team() == TEAM_SCP then
 					roundstats.sescaped = roundstats.sescaped + 1
 					net.Start("OnEscaped")
@@ -318,7 +323,7 @@ function WinCheck()
 	local res = team.NumPlayers(TEAM_SCI)
 	local scps = team.NumPlayers(TEAM_SCP)
 	local chaos = team.NumPlayers(TEAM_CHAOS)
-	local all = #GetAlivePlayers()
+	local all = #GAMEMODE.Info.GetAlivePlayers ()
 	
 	local why = "idk man"
 	

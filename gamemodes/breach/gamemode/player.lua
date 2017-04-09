@@ -2,10 +2,10 @@
 
 function CheckStart()
 	if MINPLAYERS == nil then MINPLAYERS = 2 end
-	if gamestarted == false and #GetActivePlayers() >= MINPLAYERS then
+	if gamestarted == false and #GAMEMODE.Info.GetActivePlayers () >= MINPLAYERS then
 		RoundRestart()
 	end
-	if #GetActivePlayers() == MINPLAYERS then
+	if #GAMEMODE.Info.GetActivePlayers () == MINPLAYERS then
 		RoundRestart()
 	end
 	if gamestarted then
@@ -102,6 +102,7 @@ function GM:PlayerDeath( victim, inflictor, attacker )
 		if attacker:IsPlayer() then
 			if attacker:Team() == TEAM_GUARD then
 				victim:PrintMessage(HUD_PRINTTALK, "You were killed by an MTF Guard: " .. attacker:Nick())
+				attacker:EmitSound ("targetterminated" .. math.random (1, 4) ..".ogg")
 				if victim:Team() == TEAM_SCP then
 					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 10 points for killng an SCP!")
 					attacker:AddFrags(10)
@@ -109,11 +110,12 @@ function GM:PlayerDeath( victim, inflictor, attacker )
 					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 5 points for killng a Chaos Insurgency member!")
 					attacker:AddFrags(5)
 				elseif victim:Team() == TEAM_CLASSD then
-					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 2 points for killng a Class D Personell!")
+					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 2 points for killng a Class D Personel!")
 					attacker:AddFrags(2)
 				end
 			elseif attacker:Team() == TEAM_CHAOS then
 				victim:PrintMessage(HUD_PRINTTALK, "You were killed by a Chaos Insurgency Soldier: " .. attacker:Nick())
+				attacker:EmitSound ("targetterminated" .. math.random (1, 4) ..".ogg")
 				if victim:Team() == TEAM_GUARD then 
 					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 2 points for killng an MTF Guard!")
 					attacker:AddFrags(2)
@@ -124,7 +126,7 @@ function GM:PlayerDeath( victim, inflictor, attacker )
 					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 10 points for killng an SCP!")
 					attacker:AddFrags(10)
 				elseif victim:Team() == TEAM_CLASSD then
-					attacker:PrintMessage(HUD_PRINTTALK, "Don't kill Class D Personell, you can capture them to get bonus points!")
+					attacker:PrintMessage(HUD_PRINTTALK, "Don't kill Class D Personel, you can capture them to get bonus points!")
 					attacker:AddFrags(1)
 				end
 			elseif attacker:Team() == TEAM_SCP then
@@ -155,7 +157,7 @@ function GM:PlayerDeath( victim, inflictor, attacker )
 					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 5 points for killng a Chaos Insurgency member!")
 					attacker:AddFrags(5)
 				elseif victim:Team() == TEAM_CLASSD then
-					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 2 points for killing a Class D Personell!")
+					attacker:PrintMessage(HUD_PRINTTALK, "You've been awarded with 2 points for killing a Class D Personel!")
 					attacker:AddFrags(2)
 				end
 			end
@@ -394,9 +396,10 @@ function GM:PlayerUse( ply, ent )
 					end
 					ply.lastuse = CurTime() + 1
 					if v.customdenymsg then
-						ply:PrintMessage(HUD_PRINTCENTER, v.customdenymsg)
+						ply:PrintMessage (HUD_PRINTCENTER, v.customdenymsg)
 					else
-						ply:PrintMessage(HUD_PRINTCENTER, "Access denied")
+						ply:PrintMessage (HUD_PRINTCENTER, "Unauthorized Access")
+						ply:EmitSound    ("ambient/alarms/klaxon1.wav")
 					end
 					return false
 				end

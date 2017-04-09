@@ -1,3 +1,4 @@
+
 include("shared.lua")
 include("fonts.lua")
 include("class_default.lua")
@@ -211,6 +212,7 @@ net.Receive( "OnEscaped", function( len )
 	esctime = CurTime() - timefromround
 	lastescapegot = CurTime() + 20
 	StartEndSound()
+	KillLighting ()
 	SlowFadeBlink(5)
 end)
 
@@ -266,13 +268,12 @@ net.Receive( "PrepStart", function( len )
 			end
 		end
 	end)
-	timer.Destroy("SoundsOnRoundStart")
-	timer.Create("SoundsOnRoundStart", 1, 1, SoundsOnRoundStart)
 	timefromround = CurTime() + 10
 	RADIO4SOUNDS = table.Copy(RADIO4SOUNDSHC)
 end)
 
 net.Receive( "RoundStart", function( len )
+	SoundsOnRoundStart ()
 	cltime = net.ReadInt(12)
 	chat.AddText(clang.round)
 	StartTime()
