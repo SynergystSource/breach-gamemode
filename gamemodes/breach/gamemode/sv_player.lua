@@ -429,7 +429,7 @@ function mply:SetSiteDirector(spawn)
 	end
 	self:StripWeapons()
 	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_ADMIN)
+	self:SetTeam(TEAM_GUARD)
 	self:SetHealth(100)
 	self:SetMaxHealth(100)
 	self:SetWalkSpeed(135)
@@ -448,7 +448,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetupHands()
 	self.canblink = true
 	self:AllowFlashlight( true )
-	self.WasTeam = TEAM_ADMIN
+	self.WasTeam = TEAM_GUARD
 	self:SetNClass(ROLE_SITEDIRECTOR)
 	self:SetNoTarget( false )
 end
