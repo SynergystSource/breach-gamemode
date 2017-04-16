@@ -184,19 +184,31 @@ function SetupPlayers(pltab)
 	-- SCP, MTF, Class D, Researchers, Chaos Insurgency --
 	
 	// SCP
-	local spctab = table.Copy(SPCS)
-	for i=1, pltab[1] do
-		if #spctab < 1 then
-			spctab = table.Copy(SPCS)
-			//print("not enough scps, copying another table")
-		end
-		local pl = table.Random(allply)
-		local scp = table.Random(spctab)
-		scp["func"](pl)
-		print("assigning " .. pl:Nick() .. " to scps")
-		table.RemoveByValue(spctab, scp)
-		table.RemoveByValue(allply, pl)
+	--local spctab = table.Copy (SPCS)
+	--for i = 1, pltab [1] do
+	--	if #spctab < 1 then
+	--		spctab = table.Copy (SPCS)
+	--		//print("not enough scps, copying another table")
+	--	end
+	--	local pl = table.Random(allply)
+	--	local scp = table.Random(spctab)
+	--	scp["func"] (pl)
+	--	print("assigning " .. pl:Nick() .. " to scps")
+	--	table.RemoveByValue(spctab, scp)
+	--	table.RemoveByValue(allply, pl)
+	--end
+
+	tblSCPs = table.Copy (scp:GetAll ())
+
+	for i = 1, pltab [1] do
+		ply = table.Random (allply)
+		scp = table.Random (tblSCPs)
+
+		ply:SetSCP (scp ["name"])
+		print("assigning " .. ply:Nick() .. " to scps")
+		tblSCPs [scp ["name"]] = nil
 	end
+
 	// MTF Commander
 	local mtfspawns = table.Copy(SPAWN_GUARD)
 	if pltab[2] > 0 then

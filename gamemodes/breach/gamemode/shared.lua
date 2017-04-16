@@ -1,9 +1,14 @@
 // Shared file
 
 GM.Name 	= "Breach"
-GM.Author 	= "Kanade"
-GM.Email 	= ""
-GM.Website 	= ""
+GM.Author 	= "Kanade & The Synergyst Development Team"
+GM.Email 	= "admin@synergyst.club"
+GM.Website 	= "forums.synergyst.club"
+GM.Developers = {
+	["STEAM_0:1:56987503"] = "Potatofactory",
+	["STEAM_0:1:40580894"] = "Pawkow",
+	["STEAM_0:1:56196170"] = "Jck123",
+}
 
 function GM:Initialize()
 	self.BaseClass.Initialize( self )
@@ -15,7 +20,7 @@ TEAM_CLASSD = 3
 TEAM_SPEC = 4
 TEAM_SCI = 5
 TEAM_CHAOS = 6
--- TEAM_ADMIN = 7
+TEAM_ADMIN = 7
 
 MINPLAYERS = 2
 
@@ -26,7 +31,7 @@ team.SetUp( TEAM_CLASSD, "Class Ds", Color(255, 130, 0) )
 team.SetUp( TEAM_SPEC, "Spectators", Color(141, 186, 160) )
 team.SetUp( TEAM_SCI, "Scientists", Color(66, 188, 244) )
 team.SetUp( TEAM_CHAOS, "Chaos Insurgency", Color(0, 100, 255) )
--- team.SetUp( TEAM_ADMIN, "Site Director", Color(0, 100, 255) )
+team.SetUp( TEAM_ADMIN, "Site Director", Color(0, 100, 255) )
 
 function GetLangRole(rl)
 	if clang == nil then return rl end
@@ -42,7 +47,7 @@ function GetLangRole(rl)
 	if rl == ROLE_CLASSD then return clang.ROLE_CLASSD end
 	if rl == ROLE_RES then return clang.ROLE_RES end
 	if rl == ROLE_SPEC then return clang.ROLE_SPEC end
-	-- if rl == TEAM_ADMIN then return ROLE_SITEDIRECTOR end
+	if rl == TEAM_ADMIN then return ROLE_SITEDIRECTOR end
 	return rl
 end
 
@@ -147,7 +152,13 @@ function GM:PlayerFootstep( ply, pos, foot, sound, volume, rf )
 	return false
 end
 
-function GM:EntityTakeDamage( target, dmginfo )
+function GM:EntityTakeDamage (target, dmginfo)
+
+	if target.GetSCP and target:GetSCP () then
+		target:GetSCP ():OnPlayerAttacked (target, dmginfo)
+	elseif dmginfo:GetAttacker ().GetSCP and dmginfo:GetAttacker ():GetSCP () then
+		dmginfo:GetAttacker ():GetSCP ():OnPlayerAttack (dmginfo:GetAttacker (), dmginfo)
+	end
 
 	local at = dmginfo:GetAttacker()
 	if at:IsNPC() then

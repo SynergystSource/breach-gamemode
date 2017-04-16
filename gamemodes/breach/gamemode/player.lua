@@ -47,6 +47,10 @@ function GM:PlayerAuthed( ply, steamid, uniqueid )
 end
 
 function GM:PlayerSpawn( ply )
+	if ply:GetSCP () then
+		ply:GetSCP ():OnPlayerSpawn (ply)
+	end
+
 	ply.Leaver = "none"
 	ply:SetupHands()
 	ply:SetNoCollideWithTeammates(true)
@@ -84,6 +88,7 @@ function GM:PlayerDeathThink( ply )
 	if ply.nextspawn == nil then
 		ply.nextspawn = CurTime() + 5
 	end
+
 	if (CurTime() >= ply.nextspawn) then
 		ply:Freeze(false)
 		ply:Spawn()
@@ -93,6 +98,15 @@ function GM:PlayerDeathThink( ply )
 end
 
 function GM:PlayerDeath( victim, inflictor, attacker )
+	if victim:GetSCP () then
+		victim:GetSCP ():OnPlayerDeath (victim, inflictor, attacker)
+
+		-- Allow a few ticks to pass
+		timer.Simple (0, function ()
+			victim:SetSCP (nil)
+		end)
+	end
+
 	victim.nextspawn = CurTime() + 5
 	if attacker:IsPlayer() then
 		print("[KILL] " .. attacker:Nick() .. " [" .. attacker:GetNClass() .. "] killed " .. victim:Nick() .. " [" .. victim:GetNClass() .. "]")
@@ -399,7 +413,7 @@ function GM:PlayerUse( ply, ent )
 						ply:PrintMessage (HUD_PRINTCENTER, v.customdenymsg)
 					else
 						ply:PrintMessage (HUD_PRINTCENTER, "Unauthorized Access")
-						-- ply:EmitSound    ("ambient/alarms/klaxon1.wav")
+						ply:EmitSound    ("ambient/alarms/klaxon1.wav")
 					end
 					return false
 				end

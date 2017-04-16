@@ -7,6 +7,7 @@ AddCSLuaFile( "cl_hud.lua" )
 AddCSLuaFile( "shared.lua" )
 AddCSLuaFile( "cl_scoreboard.lua" )
 AddCSLuaFile( "cl_mtfmenu.lua" )
+AddCSLuaFile( "cl_notice.lua" )
 AddCSLuaFile( "sh_player.lua" )
 mapfile = "mapconfigs/" .. game.GetMap() .. ".lua"
 AddCSLuaFile(mapfile)
@@ -38,6 +39,8 @@ include( "sv_breach.lua" )
 include( "sv_info.lua" )
 include( "sv_actions.lua" )
 include( "sv_workshop.lua" )
+include( "sv_scp_base.lua" )
+include( "sv_scp_loader.lua" )
 /*
 PrintTable(ALLLANGUAGES)
 local trytofind = ALLLANGUAGES[GetConVar("br_svlanguage"):GetString()]
@@ -70,25 +73,6 @@ resource.AddFile( "sound/radio/scpradio6.ogg" )
 resource.AddFile( "sound/radio/scpradio7.ogg" )
 resource.AddFile( "sound/radio/scpradio8.ogg" )
 resource.AddFile( "sound/radio/ohgod.ogg" )
-
-SPCS = {
-	{name = "SCP 173",
-	func = function(pl)
-		pl:SetSCP173()
-	end},
-	{name = "SCP 049",
-	func = function(pl)
-		pl:SetSCP049()
-	end},
-	{name = "SCP 106",
-	func = function(pl)
-		pl:SetSCP106()
-	end},
-	{name = "SCP 457",
-	func = function(pl)
-		pl:SetSCP457()
-	end}
-}
 
 /*
 Names = {

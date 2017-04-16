@@ -2,6 +2,26 @@
 local mply = FindMetaTable( "Player" )
 
 // just for finding a bad spawns :p
+function mply:SetSCP (strName)
+	if not strName then
+		self.__scp = nil
+		return nil
+	end
+
+	if scp:GetAll () [strName] then
+		obj = scp:GetAll () [strName]
+		obj:OnPlayerSpawn (self)
+		self.__scp = obj
+		return obj
+	else
+		error (("Failed to set %s as SCP %s! (Check your object file)"):format (self, strName))
+	end
+end
+
+function mply:GetSCP ()
+	return self.__scp and self.__scp or false
+end
+
 function mply:FindClosest(tab, num)
 	local allradiuses = {}
 	for k,v in pairs(tab) do
@@ -409,8 +429,7 @@ function mply:SetSiteDirector(spawn)
 	end
 	self:StripWeapons()
 	self:RemoveAllAmmo()
-	-- self:SetTeam(TEAM_ADMIN)
-	self:SetTeam(TEAM_GUARD)
+	self:SetTeam(TEAM_ADMIN)
 	self:SetHealth(100)
 	self:SetMaxHealth(100)
 	self:SetWalkSpeed(135)
@@ -421,7 +440,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetNoCollideWithTeammates(false)
 	self.Active = true
 	self:Give("item_radio")
-	self:Give("keycard_level5")
+	self:Give("keycard_omni")
 	self:Give("weapon_mtf_deagle")
 	self:GiveAmmo(35, "Pistol", false)
 	self:SetModel("models/player/breen.mdl")
@@ -429,8 +448,7 @@ function mply:SetSiteDirector(spawn)
 	self:SetupHands()
 	self.canblink = true
 	self:AllowFlashlight( true )
-	-- self.WasTeam = TEAM_ADMIN
-	self.WasTeam = TEAM_GUARD
+	self.WasTeam = TEAM_ADMIN
 	self:SetNClass(ROLE_SITEDIRECTOR)
 	self:SetNoTarget( false )
 end
@@ -467,135 +485,6 @@ function mply:SetNTF()
 	net.Start("RolesSelected")
 	net.Send(self)
 	self:NTFArmor()
-end
-
-function mply:SetSCP173()
-	self.handsmodel = nil
-	self:UnSpectate()
-	self:GodDisable()
-	self:Spawn()
-	self:SetPos(SPAWN_173)
-	self:StripWeapons()
-	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_SCP)
-	self:SetNClass(ROLE_SCP173)
-	self:SetModel("models/breach173.mdl")
-	self:SetHealth(1700)
-	self:SetMaxHealth(1700)
-	self:SetArmor(0)
-	self:SetWalkSpeed(350)
-	self:SetRunSpeed(350)
-	self:SetMaxSpeed(350)
-	self:SetJumpPower(200)
-	self:SetNoDraw(false)
-	self:SetNoCollideWithTeammates(false)
-	self.Active = true
-	self:SetupHands()
-	self.canblink = false
-	self:AllowFlashlight( false )
-	self.WasTeam = TEAM_SCP
-	self:SetNoTarget( true )
-	self:Give("weapon_scp_173")
-	self:SelectWeapon("weapon_scp_173")
-	self.BaseStats = nil
-	self.UsingArmor = nil
-end
-
-function mply:SetSCP106()
-	self.handsmodel = nil
-	self:UnSpectate()
-	self:GodDisable()
-	self:Spawn()
-	self:SetPos(SPAWN_106)
-	self:StripWeapons()
-	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_SCP)
-	self:SetNClass(ROLE_SCP106)
-	self:SetModel("models/vinrax/player/scp106_player.mdl")
-	self:SetHealth(1700)
-	self:SetMaxHealth(1700)
-	self:SetArmor(0)
-	self:SetWalkSpeed(165)
-	self:SetRunSpeed(165)
-	self:SetMaxSpeed(165)
-	self:SetJumpPower(200)
-	self:SetNoDraw(false)
-	self:SetNoCollideWithTeammates(false)
-	self.Active = true
-	self:SetupHands()
-	self.canblink = false
-	self:AllowFlashlight( false )
-	self.WasTeam = TEAM_SCP
-	self:SetNoTarget( true )
-	self:Give("weapon_scp_106")
-	self:SelectWeapon("weapon_scp_106")
-	self.BaseStats = nil
-	self.UsingArmor = nil
-end
-
-function mply:SetSCP049()
-	self.handsmodel = nil
-	self:UnSpectate()
-	self:GodDisable()
-	self:Spawn()
-	self:SetPos(SPAWN_049)
-	self:StripWeapons()
-	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_SCP)
-	self:SetNClass(ROLE_SCP049)
-	self:SetModel("models/vinrax/player/scp049_player.mdl")
-	self:SetHealth(1400)
-	self:SetMaxHealth(1400)
-	self:SetArmor(0)
-	self:SetWalkSpeed(140)
-	self:SetRunSpeed(140)
-	self:SetMaxSpeed(140)
-	self:SetJumpPower(200)
-	self:SetNoDraw(false)
-	self:SetNoCollideWithTeammates(false)
-	self.Active = true
-	self:SetupHands()
-	self.canblink = false
-	self:AllowFlashlight( false )
-	self.WasTeam = TEAM_SCP
-	self:SetNoTarget( true )
-	self:Give("weapon_scp_049")
-	self:SelectWeapon("weapon_scp_049")
-	self.BaseStats = nil
-	self.UsingArmor = nil
-end
-
-function mply:SetSCP457()
-	self.handsmodel = nil
-	self:UnSpectate()
-	self:GodDisable()
-	self:Spawn()
-	self:SetPos(SPAWN_457)
-	self:StripWeapons()
-	self:RemoveAllAmmo()
-	self:SetTeam(TEAM_SCP)
-	self:SetNClass(ROLE_SCP457)
-	self:SetModel("models/player/corpse1.mdl")
-	//self:SetMaterial( "models/flesh", false )
-	self:SetHealth(1700)
-	self:SetMaxHealth(1700)
-	self:SetArmor(0)
-	self:SetWalkSpeed(135)
-	self:SetRunSpeed(135)
-	self:SetMaxSpeed(135)
-	self:SetJumpPower(190)
-	self:SetNoDraw(false)
-	self:SetNoCollideWithTeammates(false)
-	self.Active = true
-	self:SetupHands()
-	self.canblink = false
-	self:AllowFlashlight( false )
-	self.WasTeam = TEAM_SCP
-	self:SetNoTarget( true )
-	self:Give("weapon_scp_457")
-	self:SelectWeapon("weapon_scp_457")
-	self.BaseStats = nil
-	self.UsingArmor = nil
 end
 
 function mply:DropWep(class, clip)
@@ -649,50 +538,6 @@ function mply:SetSCP0082()
 	end
 	self:Give("weapon_br_zombie_infect")
 	self:SelectWeapon("weapon_br_zombie_infect")
-	self.BaseStats = nil
-	self.UsingArmor = nil
-end
-
-function mply:SetSCP0492()
-	self.handsmodel = nil
-	self:UnSpectate()
-	self:GodDisable()
-	self:SetTeam(TEAM_SCP)
-	self:SetModel("models/player/zombie_classic.mdl")
-	self:SetHealth(750)
-	self:SetMaxHealth(750)
-	self:SetArmor(0)
-	self:SetWalkSpeed(160)
-	self:SetRunSpeed(160)
-	self:SetMaxSpeed(160)
-	self:SetJumpPower(200)
-	self:SetNoDraw(false)
-	self:SetNoCollideWithTeammates(false)
-	self:SetNClass(ROLE_SCP0492)
-	self.Active = true
-	print("adding " .. self:Nick() .. " to zombies")
-	self:SetupHands()
-	WinCheck()
-	self.canblink = false
-	self:AllowFlashlight( false )
-	self.WasTeam = TEAM_SCP
-	self:SetNoTarget( true )
-	net.Start("RolesSelected")
-	net.Send(self)
-	if #self:GetWeapons() > 0 then
-		local pos = self:GetPos()
-		for k,v in pairs(self:GetWeapons()) do
-			local wep = ents.Create( v:GetClass() )
-			if IsValid( wep ) then
-				wep:SetPos( pos )
-				wep:Spawn()
-				wep:SetClip1(v:Clip1())
-			end
-			self:StripWeapon(v:GetClass())
-		end
-	end
-	self:Give("weapon_br_zombie")
-	self:SelectWeapon("weapon_br_zombie")
 	self.BaseStats = nil
 	self.UsingArmor = nil
 end
@@ -787,6 +632,3 @@ function mply:ChangeSpecMode()
 	end
 	
 end
-
-
-

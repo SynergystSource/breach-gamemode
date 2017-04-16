@@ -376,5 +376,3 @@ function StopRound()
 	timer.Stop("GateOpen")
 	timer.Stop("PlayerInfo")
 end
-
-

@@ -1,6 +1,10 @@
 
 local mply = FindMetaTable( "Player" )
 
+function mply:IsDeveloper ()
+	return GAMEMODE.Developers [self:SteamID ()]
+end
+
 function mply:CLevelGlobal()
 	local biggest = 1
 	for k,wep in pairs(self:GetWeapons()) do
