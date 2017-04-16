@@ -6,8 +6,8 @@ end
 
 surface.CreateFont("sb_names", {font = "Trebuchet18", size = 14, weight = 700})
 
-function RanksEnabled ()
-	return GetConVar("br_scoreboardranks"):GetBool ()
+function RanksEnabled()
+	return GetConVar("br_scoreboardranks"):GetBool()
 end
 
 function firstToUpper(str)
@@ -159,8 +159,7 @@ function ShowScoreBoard()
 	end
 	if RanksEnabled() then
 		table.ForceInsert(sbpanels, {
-			-- name = "Authority",
-			name = "Group",
+			name = "Authority",
 			size = panelwidth * 2.5
 		})
 	end
@@ -228,8 +227,7 @@ function ShowScoreBoard()
 				rank = firstToUpper(rank)
 				if RanksEnabled() then
 					table.ForceInsert(panels, {
-						-- name = "Authority",
-						name = "Group",
+						name = "Authority",
 						text = rank,
 						color = color_white,
 						size = panelwidth * 2.5
@@ -268,8 +266,7 @@ function ShowScoreBoard()
 					draw.RoundedBox( 0, 0, 0, w, h, tcolor )
 					draw.Text( {
 						text = string.sub(v:Nick(), 1, 16),
-						-- pos = { width + ((v:IsAdmin () or v:IsSuperAdmin ()) and 20 or 2), h / 2 },
-						pos = { width + 2, h / 2 },
+						pos = { width + ((v:IsAdmin () or v:IsSuperAdmin () or v:IsDeveloper ()) and 20 or 2), h / 2 },
 						font = "sb_names",
 						color = tab.color2,
 						xalign = TEXT_ALIGN_LEFT,
@@ -340,17 +337,50 @@ function ShowScoreBoard()
 				Avatar:SetPos( 0, 0 )
 				Avatar:SetPlayer( v, 32 )
 
-				--if v:IsSuperAdmin () then
-				--	local icon = vgui.Create( "DImage", scroll_panel )
-				--	icon:SetSize( 16, 16 )
-				--	icon:SetPos( width + 2, 5 )
-				--	icon:SetImage( "icon16/user_gray.png" )
-				--elseif v:IsAdmin () then
-				--	local icon = vgui.Create( "DImage", scroll_panel )
-				--	icon:SetSize( 16, 16 )
-				--	icon:SetPos( width + 2, 5 )
-				--	icon:SetImage( "icon16/user_suit.png" )
-				--end
+				local AvatarButton = vgui.Create( "DButton", scroll_panel )
+				AvatarButton:SetSize (Avatar:GetSize ())
+				AvatarButton:SetPos  (Avatar:GetPos ())
+				AvatarButton:SetText ("")
+				AvatarButton.DoClick = function()
+					if v:SteamID () == "NULL" then
+						local Menu = DermaMenu()
+						Menu:AddOption ("I'm a robot. Beep boop."):SetIcon ("icon16/user_comment.png")
+					else
+						local Menu = DermaMenu()
+
+						Menu:AddOption ("Steam Account", function ()
+							v:ShowProfile ()
+						end):SetIcon ("icon16/user_go.png")
+
+						Menu:AddSpacer()
+
+						Menu:AddOption ("Steam ID: " .. v:SteamID (), function ()
+							SetClipboardText (v:SteamID ())
+						end)
+
+						Menu:Open()
+					end
+				end
+				AvatarButton.Paint = function( self, w, h )
+					draw.RoundedBox( 0, 0, 0, w, h, Color(0,0,0,0) )
+				end
+
+				if v:IsDeveloper () then
+					local icon = vgui.Create( "DImage", scroll_panel )
+					icon:SetSize( 16, 16 )
+					icon:SetPos( width + 2, 5 )
+					icon:SetImage( "icon16/page_white_code_red.png" )
+				elseif v:IsSuperAdmin () then
+					local icon = vgui.Create( "DImage", scroll_panel )
+					icon:SetSize( 16, 16 )
+					icon:SetPos( width + 2, 5 )
+					icon:SetImage( "icon16/user_gray.png" )
+				elseif v:IsAdmin () then
+					local icon = vgui.Create( "DImage", scroll_panel )
+					icon:SetSize( 16, 16 )
+					icon:SetPos( width + 2, 5 )
+					icon:SetImage( "icon16/user_suit.png" )
+				end
 			end
 		end
 	end
